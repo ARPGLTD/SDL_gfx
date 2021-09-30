@@ -6,7 +6,6 @@ import PackageDescription
 struct TargetConfiguration {
     var cflags : [CSetting] = []
     var lflags : [LinkerSetting] = []
-    var libraryType : Product.Library.LibraryType?
     var sourcePaths : [String] = []
     var excludePaths : [String] = []
 }
@@ -27,8 +26,6 @@ gfxConfig.cflags = [
     // .define("LOAD_BMP", to: "1"),
 ]
 
-gfxConfig.libraryType = .dynamic
-
 #elseif os(Linux)
 
 var gfxConfig = TargetConfiguration()
@@ -43,12 +40,15 @@ gfxConfig.cflags = [
 gfxConfig.cflags = [
     // .define("SDL_IMAGE_USE_COMMON_BACKEND", to: "1"),
     // .define("LOAD_BMP", to: "1"),
+    .define("DLL_EXPORT", to: "1"),
     .unsafeFlags(["-msse3"]),
 ]
 
 gfxConfig.lflags = [
     .linkedLibrary("swiftCore"),
     .linkedLibrary("USER32"),
+    .linkedLibrary("ucrt"),
+    .linkedLibrary("VCRUNTIME"),
 ]
 
 #endif
@@ -57,7 +57,7 @@ let package = Package(
     name: "SDL_gfx",
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
-        .library(name: "SDL_gfx", type: gfxConfig.libraryType, targets: ["SDL_gfx"]),
+        .library(name: "SDL_gfx", type: .dynamic, targets: ["SDL_gfx"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
