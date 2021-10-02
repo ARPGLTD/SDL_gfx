@@ -28,8 +28,6 @@ gfxConfig.cflags = [
 
 #elseif os(Linux)
 
-var gfxConfig = TargetConfiguration()
-
 gfxConfig.cflags = [
     // .define("SDL_IMAGE_USE_COMMON_BACKEND", to: "1"),
     // .define("LOAD_BMP", to: "1"),
