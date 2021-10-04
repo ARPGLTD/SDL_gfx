@@ -51,6 +51,10 @@ gfxConfig.lflags = [
 
 #endif
 
+gfxConfig.cflags += [
+    .unsafeFlags(["-Wno-everything"]),
+]
+
 let package = Package(
     name: "SDL_gfx",
     products: [
